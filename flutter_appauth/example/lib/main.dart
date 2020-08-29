@@ -30,23 +30,23 @@ class _MyAppState extends State<MyApp> {
   String _userInfo = '';
 
   // For a list of client IDs, go to https://demo.identityserver.io
-  final String _clientId = 'interactive.public';
-  final String _redirectUrl = 'io.identityserver.demo:/oauthredirect';
-  final String _issuer = 'https://demo.identityserver.io';
-  final String _discoveryUrl =
-      'https://demo.identityserver.io/.well-known/openid-configuration';
-  final List<String> _scopes = <String>[
-    'openid',
-    'profile',
-    'email',
-    'offline_access',
-    'api'
-  ];
+  final String _clientId = '7bff33f611d9b01c79f340d75823bbc4';
+  final String _redirectUrl = 'com.bksapps.animezone://login-callback';
+//  final String _issuer = 'https://demo.identityserver.io';
+//  final String _discoveryUrl =
+//      'https://demo.identityserver.io/.well-known/openid-configuration';
+//  final List<String> _scopes = <String>[
+//    'openid',
+//    'profile',
+//    'email',
+//    'offline_access',
+//    'api'
+//  ];
 
   final AuthorizationServiceConfiguration _serviceConfiguration =
       AuthorizationServiceConfiguration(
-          'https://demo.identityserver.io/connect/authorize',
-          'https://demo.identityserver.io/connect/token');
+          'https://myanimelist.net/v1/oauth2/authorize',
+          'https://myanimelist.net/v1/oauth2/token');
 
   @override
   void initState() {
@@ -130,8 +130,8 @@ class _MyAppState extends State<MyApp> {
       final TokenResponse result = await _appAuth.token(TokenRequest(
           _clientId, _redirectUrl,
           refreshToken: _refreshToken,
-          discoveryUrl: _discoveryUrl,
-          scopes: _scopes));
+          serviceConfiguration: _serviceConfiguration,
+          grantType: GrantType.refreshToken));
       _processTokenResponse(result);
       await _testApi(result);
     } catch (_) {
@@ -140,18 +140,25 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _exchangeCode() async {
+    debugPrint('Auth Code: $_authorizationCode');
+    debugPrint('Code Verifier: $_codeVerifier');
     try {
       _setBusyState();
       final TokenResponse result = await _appAuth.token(TokenRequest(
-          _clientId, _redirectUrl,
-          authorizationCode: _authorizationCode,
-          discoveryUrl: _discoveryUrl,
-          codeVerifier: _codeVerifier,
-          scopes: _scopes));
+        _clientId,
+        _redirectUrl,
+        authorizationCode: _authorizationCode,
+        serviceConfiguration: _serviceConfiguration,
+        codeVerifier: _codeVerifier,
+      ));
+      debugPrint('Auth: ${result.accessToken}');
+      debugPrint('Auth: ${result.refreshToken}');
+      debugPrint('Auth: ${result.accessTokenExpirationDateTime}');
       _processTokenResponse(result);
-      await _testApi(result);
-    } catch (_) {
+//      await _testApi(result);
+    } catch (e) {
       _clearBusyState();
+      throw e.toString();
     }
   }
 
@@ -161,7 +168,7 @@ class _MyAppState extends State<MyApp> {
       // use the discovery endpoint to find the configuration
       final AuthorizationResponse result = await _appAuth.authorize(
         AuthorizationRequest(_clientId, _redirectUrl,
-            discoveryUrl: _discoveryUrl, scopes: _scopes, loginHint: 'bob'),
+            serviceConfiguration: _serviceConfiguration),
       );
 
       // or just use the issuer
@@ -193,7 +200,6 @@ class _MyAppState extends State<MyApp> {
           _clientId,
           _redirectUrl,
           serviceConfiguration: _serviceConfiguration,
-          scopes: _scopes,
           preferEphemeralSession: preferEphemeralSession,
         ),
       );
@@ -228,6 +234,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _processAuthTokenResponse(AuthorizationTokenResponse response) {
+    debugPrint(response.accessToken);
+    debugPrint(response.refreshToken);
+    debugPrint(response.accessTokenExpirationDateTime?.toIso8601String());
     setState(() {
       _accessToken = _accessTokenTextController.text = response.accessToken;
       _idTokenTextController.text = response.idToken;

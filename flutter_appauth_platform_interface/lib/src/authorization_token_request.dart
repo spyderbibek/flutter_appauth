@@ -17,6 +17,7 @@ class AuthorizationTokenRequest extends TokenRequest
     String issuer,
     String discoveryUrl,
     List<String> promptValues,
+    String codeChallengeType,
     bool allowInsecureConnections = false,
     bool preferEphemeralSession = false,
   }) : super(
@@ -33,6 +34,7 @@ class AuthorizationTokenRequest extends TokenRequest
         ) {
     this.loginHint = loginHint;
     this.promptValues = promptValues;
+    this.codeChallengeType = codeChallengeType;
     this.preferEphemeralSession = preferEphemeralSession;
   }
 }
