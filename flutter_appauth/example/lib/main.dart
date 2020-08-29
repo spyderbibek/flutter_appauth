@@ -168,7 +168,8 @@ class _MyAppState extends State<MyApp> {
       // use the discovery endpoint to find the configuration
       final AuthorizationResponse result = await _appAuth.authorize(
         AuthorizationRequest(_clientId, _redirectUrl,
-            serviceConfiguration: _serviceConfiguration),
+            serviceConfiguration: _serviceConfiguration,
+            codeChallengeType: 'plain'),
       );
 
       // or just use the issuer
@@ -196,12 +197,10 @@ class _MyAppState extends State<MyApp> {
       // show that we can also explicitly specify the endpoints rather than getting from the details from the discovery document
       final AuthorizationTokenResponse result =
           await _appAuth.authorizeAndExchangeCode(
-        AuthorizationTokenRequest(
-          _clientId,
-          _redirectUrl,
-          serviceConfiguration: _serviceConfiguration,
-          preferEphemeralSession: preferEphemeralSession,
-        ),
+        AuthorizationTokenRequest(_clientId, _redirectUrl,
+            serviceConfiguration: _serviceConfiguration,
+            preferEphemeralSession: preferEphemeralSession,
+            codeChallengeType: 'plain'),
       );
 
       // this code block demonstrates passing in values for the prompt parameter. in this case it prompts the user login even if they have already signed in. the list of supported values depends on the identity provider
@@ -216,8 +215,9 @@ class _MyAppState extends State<MyApp> {
         _processAuthTokenResponse(result);
         await _testApi(result);
       }
-    } catch (_) {
+    } catch (e) {
       _clearBusyState();
+      throw e.toString();
     }
   }
 

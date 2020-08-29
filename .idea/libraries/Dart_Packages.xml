@@ -65,13 +65,6 @@
             </list>
           </value>
         </entry>
-        <entry key="flutter_appauth_platform_interface">
-          <value>
-            <list>
-              <option value="$PROJECT_DIR$/../../../Flutter SDK/.pub-cache/hosted/pub.dartlang.org/flutter_appauth_platform_interface-2.0.0/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="flutter_test">
           <value>
             <list>
@@ -209,7 +202,6 @@
       <root url="file://$PROJECT_DIR$/../../../Flutter SDK/.pub-cache/hosted/pub.dartlang.org/collection-1.14.13/lib" />
       <root url="file://$PROJECT_DIR$/../../../Flutter SDK/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-0.1.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../Flutter SDK/.pub-cache/hosted/pub.dartlang.org/fake_async-1.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Flutter SDK/.pub-cache/hosted/pub.dartlang.org/flutter_appauth_platform_interface-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../Flutter SDK/.pub-cache/hosted/pub.dartlang.org/http-0.12.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../Flutter SDK/.pub-cache/hosted/pub.dartlang.org/http_parser-3.1.4/lib" />
       <root url="file://$PROJECT_DIR$/../../../Flutter SDK/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.8/lib" />

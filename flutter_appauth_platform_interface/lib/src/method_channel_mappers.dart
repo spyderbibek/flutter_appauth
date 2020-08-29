@@ -80,6 +80,7 @@ Map<String, Object> _convertAuthorizationParametersToMap(
   return <String, Object>{
     'loginHint': authorizationParameters.loginHint,
     'promptValues': authorizationParameters.promptValues,
+    'codeChallengeType': authorizationParameters.codeChallengeType,
     'preferEphemeralSession': authorizationParameters.preferEphemeralSession,
   };
 }
